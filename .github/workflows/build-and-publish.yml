@@ -1,7 +1,9 @@
 name: Build & Publish to GHCR
+
 on:
   push:
-    branches: [ master ]
+    branches:
+      - '**'
   workflow_dispatch:
 
 jobs:
@@ -34,8 +36,14 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
+            # immutable tag by commit
             type=sha,prefix=sha-,format=long
-            type=raw,value=main
+            # branch name tag (feature/foo -> feature-foo)
+            type=ref,event=branch
+            # alias 'main' only for master branch
+            type=raw,value=main,enable=${{ github.ref == 'refs/heads/master' }}
+            # alias 'dev' only for dev branch (optional)
+            type=raw,value=dev,enable=${{ github.ref == 'refs/heads/dev' }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
