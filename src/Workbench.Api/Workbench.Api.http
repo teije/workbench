@@ -1,0 +1,4 @@
+@Workbench_HostAddress = https://localhost:7027
+
+GET {{Workbench_HostAddress}}/api/status/ping
+Accept: application/json
