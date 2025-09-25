@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using XAct.Diagnostics.Services.Implementations;
 
 namespace Workbench.Api.Controllers;
 
@@ -6,7 +7,11 @@ namespace Workbench.Api.Controllers;
 [ApiController]
 public class StatusController : ControllerBase
 {
+    /// <summary>
+    /// Health check endpoint
+    /// </summary>
     [HttpGet("ping")]
+    [ProducesResponseType(typeof(StatusResponse), StatusCodes.Status200OK)]
     public ActionResult<string> Get()
     {
         return Ok("pong");
